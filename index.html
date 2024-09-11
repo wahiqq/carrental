@@ -86,24 +86,12 @@
         <section id="add-payment">
             <h2>Add Payment</h2>
             <form action="add_payment.php" method="post">
-                <label for="billID">Bill ID:</label>
-                <input type="text" id="billID" name="billID" required><br>
-
-                <label for="billDate">Bill Date:</label>
-                <input type="date" id="billDate" name="billDate" required><br>
-
-                <label for="billStatus">Bill Status:</label>
-                <input type="text" id="billStatus" name="billStatus" required><br>
-
-                <label for="totalAmount">Total Amount:</label>
-                <input type="number" step="0.01" id="totalAmount" name="totalAmount" required><br>
-
-                <label for="taxAmount">Tax Amount:</label>
-                <input type="number" step="0.01" id="taxAmount" name="taxAmount" required><br>
-
-                <label for="bookingID">Booking ID:</label>
-                <input type="text" id="bookingID" name="bookingID" required><br>
-
+                <input type="text" name="billID" placeholder="Bill ID" required>
+                <input type="date" name="billDate" placeholder="Bill Date" required>
+                <input type="text" name="billStatus" placeholder="Bill Status" required>
+                <input type="number" name="totalAmount" placeholder="Total Amount" required>
+                <input type="number" name="taxAmount" placeholder="Tax Amount" required>
+                <input type="text" name="bookingID" placeholder="Booking ID" required>
                 <input type="submit" value="Add Payment">
             </form>
         </section>
