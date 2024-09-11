@@ -1,37 +1,25 @@
 <?php
-
-
-// Database connection
 $servername = "localhost";
 $username = "root";
-$password = "924470"; 
-$database = "car_rental_db";
+$password = "";
+$dbname = "car_rental_db";
 
-$conn = new mysqli($servername, $username, $password, $database);
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get CustomerID from the request
-if (isset($_POST['customerID'])) {
-    $customerID = intval($_POST['customerID']);
+$customerID = $_POST['customerID'];
 
-    // Prepare and execute the DELETE statement
-    $sql = "DELETE FROM Customer WHERE CustomerID = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $customerID);
+$sql = "DELETE FROM Customer WHERE CustomerID='$customerID'";
 
-    if ($stmt->execute()) {
-        echo "Customer deleted successfully.";
-    } else {
-        echo "Error deleting customer: " . $conn->error;
-    }
-
-    $stmt->close();
+if ($conn->query($sql) === TRUE) {
+    echo "Customer deleted successfully";
 } else {
-    echo "No Customer ID provided.";
+    echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
 $conn->close();
