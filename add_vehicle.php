@@ -1,42 +1,32 @@
 <?php
-// add_vehicle.php
-
-// Database connection
 $servername = "localhost";
 $username = "root";
-$password = "924470"; // Update if you have a different password
-$database = "car_rental_db";
+$password = "";
+$dbname = "car_rental_db";
 
-$conn = new mysqli($servername, $username, $password, $database);
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if the POST data for vehicle fields is set
-if (isset($_POST['make']) && isset($_POST['model']) && isset($_POST['year']) && isset($_POST['license']) && isset($_POST['type']) && isset($_POST['location'])) {
-    $make = $_POST['make'];
-    $model = $_POST['model'];
-    $year = intval($_POST['year']);
-    $license = $_POST['license'];
-    $type = intval($_POST['type']);
-    $location = $_POST['location'];
+$carID = $_POST['carID'];
+$model = $_POST['model'];
+$manufacturer = $_POST['manufacturer'];
+$yearOfMake = $_POST['yearOfMake'];
+$categoryID = $_POST['categoryID'];
+$locationID = $_POST['locationID'];
+$availabilityStatus = $_POST['availabilityStatus'];
 
-    // Prepare and execute the SQL query to insert the vehicle
-    $sql = "INSERT INTO Vehicle (Make, Model, Year, LicensePlate, TypeID, Status, Location) VALUES (?, ?, ?, ?, ?, 'Available', ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssisis", $make, $model, $year, $license, $type, $location);
+$sql = "INSERT INTO Car (CarID, Model, Manufacturer, YearOfMake, CategoryID, LocationID, AvailabilityStatus)
+VALUES ('$carID', '$model', '$manufacturer', $yearOfMake, '$categoryID', '$locationID', '$availabilityStatus')";
 
-    if ($stmt->execute()) {
-        echo "Vehicle added successfully.";
-    } else {
-        echo "Error adding vehicle: " . $stmt->error;
-    }
-
-    $stmt->close();
+if ($conn->query($sql) === TRUE) {
+    echo "New vehicle added successfully";
 } else {
-    echo "Please provide the required fields.";
+    echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
 $conn->close();
