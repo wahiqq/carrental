@@ -1,37 +1,25 @@
 <?php
-// delete_vehicle.php
-
-// Database connection
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "car_rental_db";
+$dbname = "car_rental_db;
 
-$conn = new mysqli($servername, $username, $password, $database);
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
-if ($conn->connect_error) {s
+if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get VehicleID from the request
-if (isset($_POST['vehicleID'])) {
-    $vehicleID = intval($_POST['vehicleID']);
+$carID = $_POST['carID'];
 
-    // Prepare and execute the DELETE statement
-    $sql = "DELETE FROM Vehicle WHERE VehicleID = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $vehicleID);
+$sql = "DELETE FROM Car WHERE CarID='$carID'";
 
-    if ($stmt->execute()) {
-        echo "Vehicle deleted successfully.";
-    } else {
-        echo "Error deleting vehicle: " . $conn->error;
-    }
-
-    $stmt->close();
+if ($conn->query($sql) === TRUE) {
+    echo "Vehicle deleted successfully";
 } else {
-    echo "No Vehicle ID provided.";
+    echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
 $conn->close();
