@@ -1,33 +1,28 @@
 <?php
-// change_reservation_status.php
-
-// Database connection
 $servername = "localhost";
 $username = "root";
-$password = "924470"; 
-$database = "car_rental_db";
+$password = "";
+$dbname = "car_rental_db;
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get data from POST request
-$reservationID = $_POST['reservationID'];
-$status = $_POST['status'];
+$bookingID = $_POST['bookingID'];
+$newStatus = $_POST['newStatus'];
 
-// SQL query to update reservation status
-$sql = "UPDATE Reservation SET Status = ? WHERE ReservationID = ?";
+$sql = "UPDATE Booking SET BookingStatus=? WHERE BookingID=?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("si", $status, $reservationID);
+$stmt->bind_param("ss", $newStatus, $bookingID);
 
 if ($stmt->execute()) {
     echo "Reservation status updated successfully.";
 } else {
-    echo "Error updating status: " . $stmt->error;
+    echo "Error updating reservation status: " . $conn->error;
 }
 
 $stmt->close();
