@@ -1,27 +1,29 @@
 <?php
-// Connect to the database
-$conn = new mysqli('localhost', 'root', '', 'car_rental_db');
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "car_rental_db";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get form data
+$bookingID = $_POST['bookingID'];
+$bookingDate = $_POST['bookingDate'];
+$amountPaid = $_POST['amountPaid'];
+$bookingStatus = $_POST['bookingStatus'];
+$carID = $_POST['carID'];
 $customerID = $_POST['customerID'];
-$vehicleID = $_POST['vehicleID'];
-$startDate = $_POST['startDate'];
-$endDate = $_POST['endDate'];
 
-// Insert reservation into Reservation table
-$sql = "INSERT INTO Reservation (CustomerID, VehicleID, StartDate, EndDate, Status, TotalCost)
-        VALUES ($customerID, $vehicleID, '$startDate', '$endDate', 'Confirmed', 300.00)";  
+$sql = "INSERT INTO Booking (BookingID, BookingDate, AmountPaid, BookingStatus, CarID, CustomerID)
+VALUES ('$bookingID', '$bookingDate', $amountPaid, '$bookingStatus', '$carID', '$customerID')";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Reservation made successfully!";
-    // Update vehicle status to 'Rented'
-    $updateSql = "UPDATE Vehicle SET Status='Rented' WHERE VehicleID=$vehicleID";
-    $conn->query($updateSql);
+    echo "Reservation made successfully";
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
